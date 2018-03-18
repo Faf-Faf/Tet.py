@@ -11,6 +11,7 @@ KEY_INTERVAL = 100
 # Цветовые константы
 C_BKGROUND   = (   0,   0,   0)
 C_RSTAIR     = ( 255, 255, 255)
+C_G_FRAME    = C_RSTAIR
 
 # Size constants
 SZ_CELL     = 30
@@ -74,7 +75,18 @@ class TronDec(Decorator):
         pygame.draw.rect(self.surf, color, 
                          (x, y, self.cell_size - 2, self.cell_size - 2), 2)
 
-
+    def DrawGFrame(self):
+        # Vertex of glass shape
+        pl = [ (self.grect[0] - self.gb_size, self.grect[1]),
+               (self.grect[0], self.grect[1]),
+               (self.grect[0], self.grect[1] + self.grect[3]),
+               (self.grect[0] + self.grect[2], self.grect[1] + self.grect[3]),
+               (self.grect[0] + self.grect[2], self.grect[1]),
+               (self.grect[0] + self.grect[2] + self.gb_size, self.grect[1]),
+               (self.grect[0] + self.grect[2] + self.gb_size, self.grect[1] + self.grect[3] + self.gb_size),
+               (self.grect[0] - self.gb_size, self.grect[1] + self.grect[3] + self.gb_size)
+             ]
+        pygame.draw.polygon(self.surf, C_G_FRAME, pl, 2)
 
 class Glass:
     def __init__(self, screen, size):   
