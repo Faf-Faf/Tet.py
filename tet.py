@@ -37,7 +37,7 @@ class Screen:
         self.glass = Glass(self, self.gsize)
 
     def MakeScene(self):
-        self.glass.AddShape(RStair(self.glass, 10))
+        self.glass.AddShape(Cross(self.glass, 10))
 
     def Draw(self):
         self.glass.Draw()
@@ -158,7 +158,77 @@ class RStair(Shape):
         self.color = C_RSTAIR
         self.form = self.poses[self.pose]
 
+
+
 # Define classes for LStair, RPocker, LPocker, Line, Square, Cross
+class LStair(Shape):
+    def __init__(self, glass, x):
+        Shape.__init__(self, glass)
+        self.x = x
+        self.poses.append([[1,1,0],[0,1,1]])   # Horizontal pose 
+        self.poses.append([[0,1],[1,1],[1,0]]) # Vertical pose   
+        self.color = C_RSTAIR
+        self.form = self.poses[self.pose]
+
+
+
+class RPocker(Shape):
+    def __init__(self, glass, x):
+        Shape.__init__(self, glass)
+        self.x = x
+        self.poses.append([[1,1],[1,0],[1,0]])   # Horizontal pose[1] 
+        self.poses.append([[1,1,1],[0,0,1]]) # Vertical pose[1]
+        self.poses.append([[0,1],[0,1],[1,1]]) # Horisotal pose[2]
+        self.poses.append([[1,0,0],[1,1,1]]) # Vertical pose[2]   
+        self.color = C_RSTAIR
+        self.form = self.poses[self.pose]
+
+
+
+class LPocker(Shape):
+    def __init__(self, glass, x):
+        Shape.__init__(self, glass)
+        self.x = x
+        self.poses.append([[1,1],[0,1],[0,1]])   # Horizontal pose[1] 
+        self.poses.append([[0,0,1],[1,1,1]]) # Vertical pose[1]
+        self.poses.append([[1,0],[1,0],[1,1]]) # Horisotal pose[2]
+        self.poses.append([[1,1,1],[1,0,0]]) # Vertical pose[2]   
+        self.color = C_RSTAIR
+        self.form = self.poses[self.pose]
+
+
+
+class Square(Shape):
+    def __init__(self, glass, x):
+        Shape.__init__(self, glass)
+        self.x = x
+        self.poses.append([[1,1],[1,1]])   # Horizontal pose 
+        self.poses.append([[1,1],[1,1]]) # Vertical pose   
+        self.color = C_RSTAIR
+        self.form = self.poses[self.pose]
+
+
+
+class Line(Shape):
+    def __init__(self, glass, x):
+        Shape.__init__(self, glass)
+        self.x = x
+        self.poses.append([[1],[1],[1],[1]])   # Horizontal pose 
+        self.poses.append([[1,1,1,1]]) # Vertical pose   
+        self.color = C_RSTAIR
+        self.form = self.poses[self.pose]
+
+
+
+class Cross(Shape):
+    def __init__(self, glass, x):
+        Shape.__init__(self, glass)
+        self.x = x
+        self.poses.append([[0,1,0],[1,1,1],[0,1,0]])   # Horizontal pose 
+        self.poses.append([[0,1,0],[1,1,1],[0,1,0]]) # Vertical pose   
+        self.color = C_RSTAIR
+        self.form = self.poses[self.pose]
+
 
 
 def grp_init(size):
