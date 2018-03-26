@@ -88,11 +88,17 @@ class TronDec(Decorator):
              ]
         pygame.draw.polygon(self.surf, C_G_FRAME, pl, 2)
 
+
+
 class Glass:
     def __init__(self, screen, size):   
         self.screen = screen
         self.size = size
         self.aShape = None   # Active shape in the glass
+        # Список линий стакана
+        # Каждая линия представляет собой список ячеек
+        # Каждая ячейка представлена кодом цвета ячейки (0 -- значит "пусто")
+        self.lines = []
 
     def Draw(self):
         # Draw glass frame
@@ -110,6 +116,10 @@ class Glass:
         if self.aShape != None:
             self.aShape.Rotate()
 
+    # TODO: Создать метод проверки допустимостимости фигуры в указанных координатах
+    
+    # TODO: Создать метод, который включит ячейки фигуры в линии стакана
+
 
 
 class Shape:
@@ -117,6 +127,8 @@ class Shape:
         self.glass = glass
         self.x = 0
         self.y = 0
+        self.ox = 0
+        self.oy = 0
         self.w = 0
         self.h = 0
         self.color = 0
@@ -142,19 +154,22 @@ class Shape:
         if self.pose >= len(self.poses):
             self.pose = 0
         
-        self.form = self.poses[self.pose]
+        # TODO: Сделать сдвиг координат фигуры
+        self.form = self.poses[self.pose][1:]
 
     def Drop(self):
         pass
 
+# TODO: Добавить координаты сдвига во все классы фигур
 
 
 class RStair(Shape):
     def __init__(self, glass, x):
         Shape.__init__(self, glass)
+        self.ox = x
         self.x = x
-        self.poses.append([[0,1,1],[1,1,0]])   # Horizontal pose 
-        self.poses.append([[1,0],[1,1],[0,1]]) # Vertical pose   
+        self.poses.append([[0,0],[0,1,1],[1,1,0]])    # Horizontal pose 
+        self.poses.append([[0,-1],[1,0],[1,1],[0,1]]) # Vertical pose   
         self.color = C_RSTAIR
         self.form = self.poses[self.pose]
 
@@ -164,6 +179,7 @@ class RStair(Shape):
 class LStair(Shape):
     def __init__(self, glass, x):
         Shape.__init__(self, glass)
+        self.ox = x
         self.x = x
         self.poses.append([[1,1,0],[0,1,1]])   # Horizontal pose 
         self.poses.append([[0,1],[1,1],[1,0]]) # Vertical pose   
@@ -175,6 +191,7 @@ class LStair(Shape):
 class RPocker(Shape):
     def __init__(self, glass, x):
         Shape.__init__(self, glass)
+        self.ox = x
         self.x = x
         self.poses.append([[1,1],[1,0],[1,0]])   # Horizontal pose[1] 
         self.poses.append([[1,1,1],[0,0,1]]) # Vertical pose[1]
@@ -188,6 +205,7 @@ class RPocker(Shape):
 class LPocker(Shape):
     def __init__(self, glass, x):
         Shape.__init__(self, glass)
+        self.ox = x
         self.x = x
         self.poses.append([[1,1],[0,1],[0,1]])   # Horizontal pose[1] 
         self.poses.append([[0,0,1],[1,1,1]]) # Vertical pose[1]
@@ -201,6 +219,7 @@ class LPocker(Shape):
 class Square(Shape):
     def __init__(self, glass, x):
         Shape.__init__(self, glass)
+        self.ox = x
         self.x = x
         self.poses.append([[1,1],[1,1]])   # Horizontal pose 
         self.poses.append([[1,1],[1,1]]) # Vertical pose   
@@ -212,6 +231,7 @@ class Square(Shape):
 class Line(Shape):
     def __init__(self, glass, x):
         Shape.__init__(self, glass)
+        self.ox = x
         self.x = x
         self.poses.append([[1],[1],[1],[1]])   # Horizontal pose 
         self.poses.append([[1,1,1,1]]) # Vertical pose   
@@ -223,6 +243,7 @@ class Line(Shape):
 class Cross(Shape):
     def __init__(self, glass, x):
         Shape.__init__(self, glass)
+        self.ox = x
         self.x = x
         self.poses.append([[0,1,0],[1,1,1],[0,1,0]])   # Horizontal pose 
         self.poses.append([[0,1,0],[1,1,1],[0,1,0]]) # Vertical pose   
